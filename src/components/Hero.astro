@@ -62,9 +62,11 @@ import { site } from "../data/site";
         <Image
           src={profile}
           alt={`Portrait of ${site.name}`}
-          width={196}
-          height={196}
-          quality={95}
+          width={480}
+          height={480}
+          widths={[224, 416, 480]}
+          sizes="(min-width: 768px) 208px, 176px"
+          quality={90}
           loading="eager"
           fetchpriority="high"
           class="border-surface relative size-44 rounded-full border-4 object-cover shadow-sm md:size-52"
