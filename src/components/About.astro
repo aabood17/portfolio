@@ -1,0 +1,22 @@
+---
+import Section from "./Section.astro";
+import { site } from "../data/site";
+---
+
+<Section id="about" index="01" title="About me">
+  <div class="grid gap-10 md:grid-cols-[3fr_2fr] md:gap-16">
+    <div class="space-y-5 text-lg leading-relaxed">
+      {site.summary.map((paragraph) => (
+        <p class="text-pretty">{paragraph}</p>
+      ))}
+    </div>
+    <dl class="border-border bg-surface divide-border divide-y self-start rounded-xl border">
+      {site.facts.map((fact) => (
+        <div class="px-5 py-4">
+          <dt class="text-muted font-mono text-xs tracking-wide uppercase">{fact.label}</dt>
+          <dd class="mt-1 font-medium">{fact.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</Section>

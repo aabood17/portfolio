@@ -1,0 +1,33 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { services } from "../data/site";
+
+const icons = ["globe", "layout", "smartphone"] as const;
+---
+
+<Section
+  id="services"
+  index="05"
+  title="Work with me"
+  intro="Need a website or an app for your business? I take on freelance projects from the first idea to launch."
+>
+  <ul class="grid gap-6 md:grid-cols-3">
+    {services.map((service, i) => (
+      <li class="border-border bg-surface rounded-xl border p-6">
+        <span class="bg-accent-soft text-accent grid size-11 place-items-center rounded-lg" aria-hidden="true">
+          <Icon name={icons[i] ?? "code"} class="size-5" />
+        </span>
+        <h3 class="mt-5 text-lg font-bold">{service.title}</h3>
+        <p class="text-muted mt-2 leading-relaxed">{service.description}</p>
+      </li>
+    ))}
+  </ul>
+  <a
+    href="#contact"
+    class="text-accent mt-8 inline-flex items-center gap-2 font-semibold hover:underline hover:underline-offset-4"
+  >
+    Tell me about your project
+    <Icon name="arrowRight" class="size-4" />
+  </a>
+</Section>

@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import SocialLinks from "./SocialLinks.astro";
+import profile from "../assets/profile.jpeg";
+import { site } from "../data/site";
+---
+
+<section aria-labelledby="hero-title" class="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-20 sm:pb-24">
+  <div class="grid items-center gap-12 md:grid-cols-[1fr_auto] md:gap-16">
+    <div class="order-2 md:order-1">
+      <p class="border-border bg-surface text-muted inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm">
+        <span class="relative flex size-2" aria-hidden="true">
+          <span class="bg-success absolute inline-flex size-full animate-ping rounded-full opacity-60"></span>
+          <span class="bg-success relative inline-flex size-2 rounded-full"></span>
+        </span>
+        {site.availability}
+      </p>
+
+      <h1 id="hero-title" class="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+        {site.name}
+      </h1>
+      <p class="text-accent mt-3 font-mono text-lg sm:text-xl">{site.role}</p>
+      <p class="text-muted mt-6 max-w-xl text-lg leading-relaxed text-pretty">{site.pitch}</p>
+      <p class="text-muted mt-4 flex items-center gap-2 text-sm">
+        <Icon name="mapPin" class="size-4" />
+        {site.location}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href="#projects"
+          class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+        >
+          View projects
+          <Icon name="arrowRight" class="size-4" />
+        </a>
+        <a
+          href="#contact"
+          class="border-border bg-surface hover:border-accent hover:text-accent inline-flex items-center gap-2 rounded-md border px-5 py-3 text-sm font-semibold transition-colors"
+        >
+          Contact me
+        </a>
+        <a
+          href={site.cvPath}
+          download="Abdullah-Abu-Riala-CV.pdf"
+          class="text-muted hover:text-accent inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold transition-colors"
+        >
+          <Icon name="download" class="size-4" />
+          Download CV
+        </a>
+      </div>
+
+      <div class="mt-8 -ml-2">
+        <SocialLinks primaryOnly />
+      </div>
+    </div>
+
+    <div class="order-1 mx-auto md:order-2">
+      <div class="relative">
+        <div
+          class="border-accent/40 absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border"
+          aria-hidden="true"
+        ></div>
+        <Image
+          src={profile}
+          alt={`Portrait of ${site.name}`}
+          width={320}
+          height={385}
+          widths={[240, 320, 364]}
+          sizes="(min-width: 768px) 320px, 240px"
+          loading="eager"
+          fetchpriority="high"
+          class="border-border relative w-60 rounded-2xl border object-cover md:w-80"
+        />
+      </div>
+    </div>
+  </div>
+</section>

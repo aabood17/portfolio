@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import Section from "./Section.astro";
+import ProjectCard from "./ProjectCard.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section
+  id="projects"
+  index="03"
+  title="Projects"
+  intro="Selected work across mobile, automation and full-stack web. Each one links to a short case study and the source code."
+>
+  <div class="grid gap-6 md:grid-cols-2">
+    {projects.map((project, i) => (
+      <ProjectCard project={project} featured={i === 0} />
+    ))}
+  </div>
+</Section>

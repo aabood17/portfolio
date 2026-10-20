@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from "astro:content";
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { certifications } from "../data/site";
+
+const entries = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(entries.map(async (entry) => ({ entry, ...(await render(entry)) })));
+---
+
+<Section id="experience" index="04" title="Experience & education">
+  <div class="grid gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
+    <ol class="border-border relative space-y-10 border-l pl-8">
+      {rendered.map(({ entry, Content }) => (
+        <li class="relative">
+          <span
+            class="border-border bg-surface text-accent absolute top-0 -left-[3.05rem] grid size-9 place-items-center rounded-full border"
+            aria-hidden="true"
+          >
+            <Icon name={entry.data.kind === "work" ? "briefcase" : "graduation"} class="size-4" />
+          </span>
+          <p class="text-muted font-mono text-sm">{entry.data.period}</p>
+          <h3 class="mt-1 text-lg font-bold">{entry.data.title}</h3>
+          <p class="text-accent font-medium">{entry.data.organization}</p>
+          <div class="text-muted prose-list mt-3 leading-relaxed">
+            <Content />
+          </div>
+          {entry.data.repo && (
+            <a
+              href={entry.data.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-accent mt-3 inline-flex items-center gap-1.5 text-sm font-semibold"
+            >
+              <Icon name="github" class="size-4" />
+              View the code
+              <Icon name="arrowUpRight" class="size-3.5" />
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    <div>
+      <h3 class="flex items-center gap-2 text-lg font-bold">
+        <Icon name="award" class="text-accent size-5" />
+        Certifications & training
+      </h3>
+      <ul class="border-border bg-surface divide-border mt-5 divide-y rounded-xl border">
+        {certifications.map((cert) => (
+          <li class="px-5 py-4">
+            <p class="font-medium">{cert.title}</p>
+            <p class="text-muted mt-1 text-sm">
+              {cert.issuer} · {cert.year}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  .prose-list ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-list li + li {
+    margin-top: 0.5rem;
+  }
+</style>

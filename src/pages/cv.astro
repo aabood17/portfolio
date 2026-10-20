@@ -1,0 +1,279 @@
+---
+// Printable CV, generated from the same data as the site.
+// `npm run cv` prints this page to public/cv.pdf. No phone number, by design.
+import "@fontsource-variable/inter";
+import { getCollection, render } from "astro:content";
+import { certifications, site, skillGroups, socials, volunteering } from "../data/site";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+const work = await Promise.all(
+  experience.filter((e) => e.data.kind === "work").map(async (e) => ({ entry: e, ...(await render(e)) })),
+);
+const education = await Promise.all(
+  experience.filter((e) => e.data.kind === "education").map(async (e) => ({ entry: e, ...(await render(e)) })),
+);
+const link = (id: string) => socials.find((s) => s.id === id)!;
+const siteHost = Astro.site?.host ?? "";
+const cvSkills = skillGroups.filter((g) => g.title !== "AI Tools");
+const aiTools = skillGroups.find((g) => g.title === "AI Tools");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{site.name} | CV</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <main class="cv">
+      <header>
+        <h1>{site.name}</h1>
+        <p class="role">{site.role}</p>
+        <p class="contact">
+          <span>{site.location}</span>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={Astro.site?.href}>{siteHost}</a>
+          <a href={link("linkedin").href}>LinkedIn</a>
+          <a href={link("github").href}>GitHub</a>
+        </p>
+      </header>
+
+      <section>
+        <h2>Summary</h2>
+        <p>{site.cvSummary}</p>
+      </section>
+
+      <section>
+        <h2>Education</h2>
+        {education.map(({ entry, Content }) => (
+          <div class="item">
+            <div class="row">
+              <p>
+                <strong>{entry.data.title}</strong> — {entry.data.organization}
+              </p>
+              <p class="date">{entry.data.period}</p>
+            </div>
+            <div class="body">
+              <Content />
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Technical skills</h2>
+        <ul class="skills">
+          {cvSkills.map((group) => (
+            <li>
+              <strong>{group.title}:</strong> {group.items.join(", ")}
+            </li>
+          ))}
+          {aiTools && (
+            <li>
+              <strong>{aiTools.title}:</strong> {aiTools.items.join(", ")}
+            </li>
+          )}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Experience</h2>
+        {work.map(({ entry, Content }) => (
+          <div class="item">
+            <div class="row">
+              <p>
+                <strong>{entry.data.title}</strong> — {entry.data.organization}
+              </p>
+              <p class="date">{entry.data.period}</p>
+            </div>
+            <div class="body">
+              <Content />
+            </div>
+            {entry.data.repo && (
+              <p class="code">
+                Code: <a href={entry.data.repo}>{entry.data.repo.replace("https://", "")}</a>
+              </p>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        {projects.map((project) => (
+          <div class="item">
+            <p>
+              <strong>{project.data.title}</strong> — {project.data.tagline}
+            </p>
+            <ul>
+              {project.data.highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+            <p class="code">
+              {project.data.repo ? (
+                <>
+                  Code: <a href={project.data.repo}>{project.data.repo.replace("https://", "")}</a>
+                </>
+              ) : (
+                <>
+                  Details:{" "}
+                  <a href={new URL(`/projects/${project.id}/`, Astro.site)}>
+                    {siteHost}/projects/{project.id}
+                  </a>
+                </>
+              )}
+            </p>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Certifications & training</h2>
+        <ul>
+          {certifications.map((c) => (
+            <li>
+              {c.title} — {c.issuer} ({c.year})
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Languages</h2>
+        <p>Arabic (Native) • English (Professional Working Proficiency)</p>
+      </section>
+
+      <section>
+        <h2>Voluntary experience</h2>
+        <ul>
+          {volunteering.map((v) => (
+            <li>
+              {v.organization} — {v.description} ({v.period}).
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+  html {
+    background: #e7e5e4;
+  }
+  body {
+    margin: 0;
+    font-family: "Inter Variable", system-ui, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.45;
+    color: #1c1917;
+  }
+  .cv {
+    box-sizing: border-box;
+    max-width: 210mm;
+    margin: 24px auto;
+    padding: 14mm 16mm;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+  }
+  @media print {
+    html {
+      background: #fff;
+    }
+    .cv {
+      margin: 0;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+  a {
+    color: #1e3a5f;
+  }
+  p {
+    margin: 0;
+  }
+  header {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid #1e3a5f;
+  }
+  h1 {
+    margin: 0;
+    color: #1e3a5f;
+    font-size: 22pt;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .role {
+    color: #57534e;
+    font-size: 12pt;
+    font-style: italic;
+  }
+  .contact {
+    margin-top: 4px;
+    color: #57534e;
+    font-size: 9pt;
+  }
+  .contact > * + *::before {
+    content: "|";
+    display: inline-block;
+    margin: 0 8px;
+    color: #a8a29e;
+  }
+  section {
+    margin-top: 12px;
+  }
+  h2 {
+    margin: 0 0 6px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #d6d3d1;
+    color: #1e3a5f;
+    font-size: 10.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .item {
+    break-inside: avoid;
+  }
+  .item + .item {
+    margin-top: 8px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .date {
+    color: #57534e;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  ul {
+    margin: 3px 0 0;
+    padding-left: 18px;
+  }
+  li + li {
+    margin-top: 2px;
+  }
+  .skills {
+    padding-left: 0;
+    list-style: none;
+  }
+  .body p,
+  .body ul {
+    margin-top: 2px;
+  }
+  .code {
+    margin-top: 2px;
+    font-size: 9pt;
+  }
+</style>

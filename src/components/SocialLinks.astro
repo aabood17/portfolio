@@ -1,0 +1,29 @@
+---
+import Icon from "./Icon.astro";
+import { socials } from "../data/site";
+
+interface Props {
+  /** Show only the professional links (GitHub, LinkedIn, Email). */
+  primaryOnly?: boolean;
+}
+
+const { primaryOnly = false } = Astro.props;
+const links = primaryOnly ? socials.filter((s) => s.primary) : socials;
+---
+
+<ul class="flex items-center gap-1">
+  {links.map((link) => (
+    <li>
+      <a
+        href={link.href}
+        target={link.id === "email" ? undefined : "_blank"}
+        rel={link.id === "email" ? undefined : "noopener noreferrer"}
+        class="text-muted hover:text-accent hover:bg-accent-soft grid size-10 place-items-center rounded-md transition-colors"
+        aria-label={link.label}
+        title={link.label}
+      >
+        <Icon name={link.id === "email" ? "mail" : link.id} class="size-5" />
+      </a>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aburiala.vercel.app/sitemap-index.xml

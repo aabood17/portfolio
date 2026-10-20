@@ -1,0 +1,19 @@
+---
+import Section from "./Section.astro";
+import { skillGroups } from "../data/site";
+---
+
+<Section id="skills" index="02" title="Skills" intro="The tools I use to take a product from design to deployment.">
+  <div class="border-border bg-border grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-3">
+    {skillGroups.map((group) => (
+      <div class="bg-surface p-6">
+        <h3 class="font-mono text-sm font-semibold">{group.title}</h3>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {group.items.map((item) => (
+            <li class="bg-accent-soft rounded-md px-2.5 py-1 text-sm">{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</Section>

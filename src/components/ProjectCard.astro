@@ -1,0 +1,81 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  /** The first project gets a wide, image-led layout. */
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const { title, tagline, summary, context, stack, cover, coverAlt, repo } = project.data;
+const href = `/projects/${project.id}/`;
+---
+
+<article
+  class:list={[
+    "group border-border bg-surface hover:border-accent/60 relative flex flex-col overflow-hidden rounded-xl border transition-colors",
+    featured && "md:col-span-2 md:grid md:grid-cols-2",
+  ]}
+>
+  <div
+    class:list={[
+      "bg-accent-soft border-border relative flex items-center justify-center overflow-hidden border-b",
+      featured ? "aspect-[16/10] md:aspect-auto md:border-r md:border-b-0" : "aspect-[16/10]",
+    ]}
+  >
+    {cover ? (
+      <Image
+        src={cover}
+        alt={coverAlt ?? ""}
+        width={featured ? 800 : 600}
+        class:list={[
+          "transition-transform duration-300 group-hover:scale-[1.02]",
+          featured ? "h-full w-full object-contain p-6" : "h-full w-full object-cover object-top",
+        ]}
+      />
+    ) : (
+      <div class="text-accent flex flex-col items-center gap-3 p-6 text-center" aria-hidden="true">
+        <Icon name="code" class="size-10" />
+        <span class="font-mono text-sm">{stack.slice(0, 3).join(" · ")}</span>
+      </div>
+    )}
+  </div>
+
+  <div class="flex flex-1 flex-col p-6">
+    <p class="text-muted font-mono text-xs">{context}</p>
+    <h3 class="mt-2 text-xl font-bold tracking-tight">
+      <a href={href} class="after:absolute after:inset-0 focus-visible:outline-none">
+        {title}
+      </a>
+    </h3>
+    <p class="text-accent mt-1 text-sm font-medium">{tagline}</p>
+    <p class="text-muted mt-3 leading-relaxed">{summary}</p>
+
+    <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
+      {stack.map((tech) => (
+        <li class="border-border rounded border px-2 py-0.5 font-mono text-xs">{tech}</li>
+      ))}
+    </ul>
+
+    <div class="mt-auto flex items-center gap-4 pt-6 text-sm font-semibold">
+      <span class="text-accent inline-flex items-center gap-1.5">
+        Read case study
+        <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+      {repo && (
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted hover:text-text relative z-10 inline-flex items-center gap-1.5"
+        >
+          <Icon name="github" class="size-4" />
+          Code
+        </a>
+      )}
+    </div>
+  </div>
+</article>

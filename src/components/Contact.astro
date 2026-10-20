@@ -1,0 +1,52 @@
+---
+import Section from "./Section.astro";
+import ContactForm from "./ContactForm.astro";
+import Icon from "./Icon.astro";
+import { site, socials } from "../data/site";
+---
+
+<Section
+  id="contact"
+  index="06"
+  title="Let's talk"
+  intro="Hiring, a freelance project, or just a question? Send me a message and I'll reply by email."
+>
+  <div class="grid gap-10 lg:grid-cols-[3fr_2fr] lg:gap-16">
+    <ContactForm />
+
+    <div class="space-y-6">
+      <div class="border-border bg-surface rounded-xl border p-6">
+        <h3 class="font-bold">Email me directly</h3>
+        <a
+          href={`mailto:${site.email}`}
+          class="text-accent mt-2 inline-flex items-center gap-2 break-all hover:underline"
+        >
+          <Icon name="mail" class="size-4 shrink-0" />
+          {site.email}
+        </a>
+      </div>
+
+      <div class="border-border bg-surface rounded-xl border p-6">
+        <h3 class="font-bold">Find me online</h3>
+        <ul class="mt-4 space-y-3">
+          {socials
+            .filter((s) => s.id !== "email")
+            .map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group hover:text-accent flex items-center gap-3"
+                >
+                  <Icon name={s.id === "email" ? "mail" : s.id} class="text-muted group-hover:text-accent size-5" />
+                  <span class="font-medium">{s.label}</span>
+                  <span class="text-muted truncate text-sm">{s.handle}</span>
+                </a>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,163 @@
+---
+import Icon from "./Icon.astro";
+import { site } from "../data/site";
+
+// Web3Forms access keys are designed to be public: they only allow sending to the owner's inbox.
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "";
+const inputClass =
+  "border-border bg-surface placeholder:text-muted/70 focus:border-accent focus:ring-accent/30 mt-2 block w-full rounded-md border px-4 py-3 text-base outline-none focus:ring-4 aria-[invalid=true]:border-danger";
+---
+
+<form
+  data-contact-form
+  data-access-key={accessKey}
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  novalidate
+  class="border-border bg-surface rounded-xl border p-6 sm:p-8"
+>
+  <input type="hidden" name="subject" value={`New message from ${site.shortName}'s portfolio`} />
+  <input type="hidden" name="from_name" value="Portfolio contact form" />
+  <!-- Honeypot: real visitors never see or fill this field. -->
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class="text-sm font-semibold">
+        Name
+      </label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        minlength="2"
+        maxlength="100"
+        autocomplete="name"
+        aria-describedby="name-error"
+        class={inputClass}
+      />
+      <p id="name-error" class="text-danger mt-1.5 hidden text-sm" data-error-for="name">
+        Please enter your name.
+      </p>
+    </div>
+    <div>
+      <label for="email" class="text-sm font-semibold">
+        Email
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        maxlength="200"
+        autocomplete="email"
+        aria-describedby="email-error"
+        class={inputClass}
+      />
+      <p id="email-error" class="text-danger mt-1.5 hidden text-sm" data-error-for="email">
+        Please enter a valid email address.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <label for="message" class="text-sm font-semibold">
+      Message
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      minlength="10"
+      maxlength="5000"
+      rows="6"
+      aria-describedby="message-error"
+      class={inputClass}
+      placeholder="Tell me about the role or project…"
+    ></textarea>
+    <p id="message-error" class="text-danger mt-1.5 hidden text-sm" data-error-for="message">
+      Please write at least 10 characters.
+    </p>
+  </div>
+
+  <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+    <button
+      type="submit"
+      class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
+    >
+      <span data-label>Send message</span>
+      <Icon name="arrowRight" class="size-4" />
+    </button>
+    <p data-status role="status" aria-live="polite" class="text-sm"></p>
+  </div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+
+  if (form) {
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const label = form.querySelector<HTMLElement>("[data-label]")!;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const fields = ["name", "email", "message"].map((n) => form.elements.namedItem(n) as HTMLInputElement);
+
+    const showStatus = (text: string, ok: boolean) => {
+      status.textContent = text;
+      status.className = `text-sm ${ok ? "text-success" : "text-danger"}`;
+    };
+
+    const validateField = (field: HTMLInputElement) => {
+      const valid = field.value.trim().length > 0 && field.checkValidity();
+      field.setAttribute("aria-invalid", String(!valid));
+      form.querySelector(`[data-error-for="${field.name}"]`)?.classList.toggle("hidden", valid);
+      return valid;
+    };
+
+    fields.forEach((field) =>
+      field.addEventListener("blur", () => {
+        if (field.value) validateField(field);
+      }),
+    );
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "";
+
+      const invalid = fields.filter((field) => !validateField(field));
+      if (invalid.length > 0) {
+        invalid[0]!.focus();
+        return;
+      }
+
+      const accessKey = form.dataset.accessKey;
+      if (!accessKey) {
+        showStatus("The form isn't connected yet. Please email me directly.", false);
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+      button.disabled = true;
+      label.textContent = "Sending…";
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ ...data, access_key: accessKey }),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message);
+
+        form.reset();
+        fields.forEach((field) => field.removeAttribute("aria-invalid"));
+        showStatus("Thanks! Your message was sent. I'll get back to you soon.", true);
+      } catch {
+        showStatus("Something went wrong. Please try again or email me directly.", false);
+      } finally {
+        button.disabled = false;
+        label.textContent = "Send message";
+      }
+    });
+  }
+</script>

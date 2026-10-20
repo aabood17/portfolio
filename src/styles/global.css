@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens: components use the semantic names below, never raw hex values. */
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --accent: #1e3a5f;
+  --accent-hover: #162c48;
+  --accent-fg: #ffffff;
+  --accent-soft: #eaf0f7;
+  --success: #15803d;
+  --danger: #b91c1c;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0b0e13;
+  --surface: #121720;
+  --text: #e6e8ec;
+  --muted: #9ba3b1;
+  --border: #242b37;
+  --accent: #8fb5e6;
+  --accent-hover: #adc9ee;
+  --accent-fg: #0b0e13;
+  --accent-soft: #15213a;
+  --success: #4ade80;
+  --danger: #f87171;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  ::selection {
+    @apply bg-accent text-accent-fg;
+  }
+}
+
+/* Case study body rendered from Markdown. */
+.prose-content {
+  @apply text-lg leading-relaxed;
+
+  & h2 {
+    @apply mt-12 mb-4 text-2xl font-bold tracking-tight first:mt-0;
+  }
+  & p {
+    @apply text-muted mt-4;
+  }
+  & ul {
+    @apply text-muted mt-4 list-disc space-y-2 pl-6;
+  }
+  & strong {
+    @apply text-text font-semibold;
+  }
+  & em {
+    @apply italic;
+  }
+  & a {
+    @apply text-accent underline underline-offset-4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
