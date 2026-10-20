@@ -5,10 +5,9 @@ summary: A full-stack social platform with secure authentication, real-time mess
 role: Designed the UI in Figma and built the backend and frontend.
 context: Full-stack project
 stack: [Java, Spring Boot, JWT, OAuth2, SSL, React, TypeScript, Microservices, Figma]
-highlights:
-  - Designed and built a full-stack social platform with secure authentication, real-time messaging, and notifications.
-  - "Backend: Java, Spring Boot, JWT, OAuth2, SSL. Frontend: React and TypeScript."
-  - Refactored the application into a microservices architecture and designed the UI in Figma.
+cover: ../../assets/projects/social-media-data-model.png
+coverAlt: Database diagram of the social media platform with users, posts, comments, likes, shares, friendships, messages and roles
+repo: https://github.com/S24-SWER313/project-404
 order: 3
 ---
 

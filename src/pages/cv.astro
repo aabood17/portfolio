@@ -1,22 +1,12 @@
 ---
-// Printable CV, generated from the same data as the site.
-// `npm run cv` prints this page to public/cv.pdf. No phone number, by design.
+// Printable CV, same content as Abdullah's CV (src/data/cv.ts) without the phone number.
+// `npm run cv` prints this page to public/cv.pdf.
 import "@fontsource-variable/inter";
-import { getCollection, render } from "astro:content";
-import { certifications, site, skillGroups, socials, volunteering } from "../data/site";
+import { cv } from "../data/cv";
+import { site, socials } from "../data/site";
 
-const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
-const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
-const work = await Promise.all(
-  experience.filter((e) => e.data.kind === "work").map(async (e) => ({ entry: e, ...(await render(e)) })),
-);
-const education = await Promise.all(
-  experience.filter((e) => e.data.kind === "education").map(async (e) => ({ entry: e, ...(await render(e)) })),
-);
 const link = (id: string) => socials.find((s) => s.id === id)!;
 const siteHost = Astro.site?.host ?? "";
-const cvSkills = skillGroups.filter((g) => g.title !== "AI Tools");
-const aiTools = skillGroups.find((g) => g.title === "AI Tools");
 ---
 
 <!doctype html>
@@ -35,7 +25,7 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
         <p class="role">{site.role}</p>
         <p class="contact">
           <span>{site.location}</span>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <span>{site.email}</span>
           <a href={Astro.site?.href}>{siteHost}</a>
           <a href={link("linkedin").href}>LinkedIn</a>
           <a href={link("github").href}>GitHub</a>
@@ -44,22 +34,22 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
 
       <section>
         <h2>Summary</h2>
-        <p>{site.cvSummary}</p>
+        <p>{cv.summary}</p>
       </section>
 
       <section>
         <h2>Education</h2>
-        {education.map(({ entry, Content }) => (
+        {cv.education.map((entry) => (
           <div class="item">
             <div class="row">
               <p>
-                <strong>{entry.data.title}</strong> — {entry.data.organization}
+                <strong>{entry.title}</strong> — {entry.subtitle}
               </p>
-              <p class="date">{entry.data.period}</p>
+              <p class="date">{entry.period}</p>
             </div>
-            <div class="body">
-              <Content />
-            </div>
+            {entry.bullets.map((line) => (
+              <p>{line}</p>
+            ))}
           </div>
         ))}
       </section>
@@ -67,67 +57,58 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
       <section>
         <h2>Technical skills</h2>
         <ul class="skills">
-          {cvSkills.map((group) => (
+          {cv.skills.map((skill) => (
             <li>
-              <strong>{group.title}:</strong> {group.items.join(", ")}
+              <strong>{skill.label}:</strong> {skill.value}
             </li>
           ))}
-          {aiTools && (
-            <li>
-              <strong>{aiTools.title}:</strong> {aiTools.items.join(", ")}
-            </li>
-          )}
         </ul>
       </section>
 
       <section>
         <h2>Experience</h2>
-        {work.map(({ entry, Content }) => (
+        {cv.experience.map((entry) => (
           <div class="item">
             <div class="row">
               <p>
-                <strong>{entry.data.title}</strong> — {entry.data.organization}
+                <strong>{entry.title}</strong> — {entry.subtitle}
               </p>
-              <p class="date">{entry.data.period}</p>
+              <p class="date">{entry.period}</p>
             </div>
-            <div class="body">
-              <Content />
-            </div>
-            {entry.data.repo && (
-              <p class="code">
-                Code: <a href={entry.data.repo}>{entry.data.repo.replace("https://", "")}</a>
-              </p>
-            )}
+            <ul>
+              {entry.bullets.map((line) => (
+                <li>{line}</li>
+              ))}
+              {entry.link && (
+                <li>
+                  Code: <a href={entry.link.href}>{entry.link.label}</a>
+                </li>
+              )}
+            </ul>
           </div>
         ))}
       </section>
 
       <section>
         <h2>Projects</h2>
-        {projects.map((project) => (
+        {cv.projects.map((entry) => (
           <div class="item">
-            <p>
-              <strong>{project.data.title}</strong> — {project.data.tagline}
-            </p>
+            <div class="row">
+              <p>
+                <strong>{entry.title}</strong>
+              </p>
+              {entry.period && <p class="date">{entry.period}</p>}
+            </div>
             <ul>
-              {project.data.highlights.map((h) => (
-                <li>{h}</li>
+              {entry.bullets.map((line) => (
+                <li>{line}</li>
               ))}
-            </ul>
-            <p class="code">
-              {project.data.repo ? (
-                <>
-                  Code: <a href={project.data.repo}>{project.data.repo.replace("https://", "")}</a>
-                </>
-              ) : (
-                <>
-                  Details:{" "}
-                  <a href={new URL(`/projects/${project.id}/`, Astro.site)}>
-                    {siteHost}/projects/{project.id}
-                  </a>
-                </>
+              {entry.link && (
+                <li>
+                  Code: <a href={entry.link.href}>{entry.link.label}</a>
+                </li>
               )}
-            </p>
+            </ul>
           </div>
         ))}
       </section>
@@ -135,9 +116,15 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
       <section>
         <h2>Certifications & training</h2>
         <ul>
-          {certifications.map((c) => (
+          {cv.certifications.map((cert) => (
             <li>
-              {c.title} — {c.issuer} ({c.year})
+              {cert.text}
+              {cert.link && (
+                <>
+                  {" — "}
+                  <a href={cert.link.href}>{cert.link.label}</a>
+                </>
+              )}
             </li>
           ))}
         </ul>
@@ -145,16 +132,14 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
 
       <section>
         <h2>Languages</h2>
-        <p>Arabic (Native) • English (Professional Working Proficiency)</p>
+        <p>{cv.languages}</p>
       </section>
 
       <section>
         <h2>Voluntary experience</h2>
         <ul>
-          {volunteering.map((v) => (
-            <li>
-              {v.organization} — {v.description} ({v.period}).
-            </li>
+          {cv.volunteering.map((line) => (
+            <li>{line}</li>
           ))}
         </ul>
       </section>
@@ -267,13 +252,5 @@ const aiTools = skillGroups.find((g) => g.title === "AI Tools");
   .skills {
     padding-left: 0;
     list-style: none;
-  }
-  .body p,
-  .body ul {
-    margin-top: 2px;
-  }
-  .code {
-    margin-top: 2px;
-    font-size: 9pt;
   }
 </style>

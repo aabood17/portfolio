@@ -5,10 +5,6 @@ summary: A Python automation that collects new IT jobs in Palestine and remote r
 role: Designed and built the whole project on my own.
 context: Personal project · Open source
 stack: [Python, GitHub Actions, JSearch API, Windows Task Scheduler]
-highlights:
-  - Built a Python automation that collects new IT jobs from Palestinian sources (Jobs.ps, Foras, company career pages) and remote jobs from LinkedIn and Indeed via the JSearch API, then emails a ranked report every 3 days.
-  - Designed a keyword-based scoring model (English and Arabic) that rates each job 0–100 against my skills and filters out expired, senior and US-only roles.
-  - Scheduled with GitHub Actions and Windows Task Scheduler, with deduplication, fault-tolerant sources and API keys stored in GitHub Secrets.
 cover: ../../assets/projects/job-finder-report.png
 coverAlt: Example email report listing software jobs in Palestine and remote jobs, each with a match score out of 100
 repo: https://github.com/aabood17/palestine-job-finder

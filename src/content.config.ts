@@ -13,8 +13,6 @@ const projects = defineCollection({
       role: z.string(),
       context: z.string(),
       stack: z.array(z.string()).min(1),
-      /** Short bullets for the printable CV, worded as in the CV. */
-      highlights: z.array(z.string()).min(1),
       cover: image().optional(),
       coverAlt: z.string().optional(),
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),

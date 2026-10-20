@@ -53,6 +53,17 @@ const rendered = await Promise.all(entries.map(async (entry) => ({ entry, ...(aw
             <p class="text-muted mt-1 text-sm">
               {cert.issuer} · {cert.year}
             </p>
+            {cert.url && (
+              <a
+                href={cert.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-accent mt-2 inline-flex items-center gap-1 text-sm font-semibold hover:underline hover:underline-offset-4"
+              >
+                {cert.urlLabel}
+                <Icon name="arrowUpRight" class="size-3.5" />
+              </a>
+            )}
           </li>
         ))}
       </ul>

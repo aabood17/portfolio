@@ -29,3 +29,6 @@ test-results/
 
 # jetbrains setting folder
 .idea/
+
+# raw photos (may show other people), only processed images go in src/assets
+/IMG_*

@@ -19,8 +19,6 @@ export const site = {
     "I've built and shipped e-commerce, social networking, and AI-assisted navigation applications from design through deployment. I'm comfortable moving between frontend, backend, and mobile, and I use generative AI tools in practice to speed up development.",
     "I'm looking for a Software Engineer role where I can contribute strong fundamentals, fast learning, and a builder's mindset, and I take on freelance projects for businesses.",
   ],
-  cvSummary:
-    "Software Engineer with a B.S. from Bethlehem University and hands-on experience across the full stack: Java/Spring Boot, PHP/Laravel, React, and Flutter. Built and shipped e-commerce, social networking, and AI-assisted navigation applications from design through deployment. Comfortable moving between frontend, backend, and mobile, with practical experience applying generative AI tools to speed up development. Seeking a Software Engineer role where I can contribute strong fundamentals, fast learning, and a builder's mindset.",
   facts: [
     { label: "Based in", value: "Bethlehem, Palestine" },
     { label: "Degree", value: "B.S. Software Engineering" },
@@ -77,41 +75,40 @@ export const nav = [
 export const skillGroups = [
   { title: "Languages", items: ["Java", "PHP", "Python", "Dart"] },
   { title: "Backend", items: ["Spring Boot", "Laravel", "REST APIs", "JWT", "OAuth2", "MySQL", "Firebase"] },
-  { title: "Frontend", items: ["React", "TypeScript", "HTML / CSS / JavaScript", "Tailwind CSS"] },
+  { title: "Frontend", items: ["React", "TypeScript", "HTML/CSS/JavaScript", "Tailwind CSS"] },
   { title: "Mobile", items: ["Flutter"] },
-  { title: "Tools & Practices", items: ["Git", "GitHub", "Docker", "Agile / Scrum", "Figma"] },
+  { title: "Tools & Practices", items: ["Git", "GitHub", "Docker", "Agile/Scrum", "Figma"] },
   { title: "AI Tools", items: ["Prompt Engineering", "ChatGPT", "Google Gemini"] },
 ];
 
-export const certifications = [
+export interface Certification {
+  title: string;
+  issuer: string;
+  year: string;
+  /** Public credential page, if there is one. */
+  url?: string;
+  urlLabel?: string;
+}
+
+export const certifications: Certification[] = [
   {
     title: "Google Prompting Essentials Specialization",
     issuer: "Google Career Certificates, Coursera",
     year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/specialization/Z4NLH1SIVZBU",
+    urlLabel: "View certificate",
   },
   {
     title: "AWS Academy Cloud Foundations",
     issuer: "AWS Academy",
     year: "2024",
+    url: "https://www.credly.com/badges/712905ea-62d7-442a-9557-a41e4d95169b/public_url",
+    urlLabel: "View badge",
   },
   {
     title: "Frontend Development Training (React, Flutter, Figma)",
     issuer: "Udemy",
     year: "2023–2024",
-  },
-];
-
-// Shown only on the printable CV (/cv).
-export const volunteering = [
-  {
-    organization: "IEEE BU Student Branch",
-    description: "Organized coding workshops, technical events, and hackathons",
-    period: "Nov 2023 – May 2025",
-  },
-  {
-    organization: "Ghirass Cultural Center",
-    description: "Taught English and public speaking to children",
-    period: "May 2023 – Jun 2023",
   },
 ];
 

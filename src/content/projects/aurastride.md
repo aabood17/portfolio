@@ -5,11 +5,6 @@ summary: A Flutter app that guides visually impaired students around Bethlehem U
 role: Built the on-device object detection and the GPS campus navigation, and field-tested the app.
 context: Graduation project · Team · Bethlehem University
 stack: [Flutter, Dart, TensorFlow Lite, YOLOv5, Google Maps, Firebase, Text-to-Speech]
-highlights:
-  - "Team graduation project: a Flutter app that guides visually impaired students around Bethlehem University's campus with voice directions and real-time obstacle alerts."
-  - Built the object detection module, on-device YOLOv5 (TensorFlow Lite) on the live camera feed, announcing nearby obstacles through text-to-speech.
-  - Built the campus navigation with GPS positioning, Google Maps and step-by-step voice directions to campus buildings, controlled by speech commands.
-  - Field-tested the app in real-world conditions and tested and debugged the detection and navigation code.
 cover: ../../assets/projects/aurastride-onboarding.jpg
 coverAlt: Three AuraStride onboarding screens, Welcome, Real-Time Guidance and Safety at Every Step
 gallery:
