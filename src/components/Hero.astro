@@ -58,20 +58,16 @@ import { site } from "../data/site";
 
     <div class="order-1 mx-auto md:order-2">
       <div class="relative">
-        <div
-          class="border-accent/40 absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border"
-          aria-hidden="true"
-        ></div>
+        <div class="border-accent/40 absolute -inset-3 rounded-full border" aria-hidden="true"></div>
         <Image
           src={profile}
           alt={`Portrait of ${site.name}`}
-          width={320}
-          height={385}
-          widths={[240, 320, 364]}
-          sizes="(min-width: 768px) 320px, 240px"
+          width={196}
+          height={196}
+          quality={95}
           loading="eager"
           fetchpriority="high"
-          class="border-border relative w-60 rounded-2xl border object-cover md:w-80"
+          class="border-surface relative size-44 rounded-full border-4 object-cover shadow-sm md:size-52"
         />
       </div>
     </div>
