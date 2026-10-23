@@ -8,7 +8,7 @@ stack: [Python, GitHub Actions, JSearch API, Windows Task Scheduler]
 cover: ../../assets/projects/job-finder-report.png
 coverAlt: Example email report listing software jobs in Palestine and remote jobs, each with a match score out of 100
 repo: https://github.com/aabood17/palestine-job-finder
-order: 2
+order: 3
 ---
 
 ## The problem

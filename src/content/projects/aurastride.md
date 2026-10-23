@@ -11,7 +11,7 @@ gallery:
   - src: ../../assets/projects/aurastride-navigation.jpg
     alt: AuraStride navigation screen showing the Bethlehem University campus map with building markers and a voice command button
 repo: https://github.com/aabood17/AuraStride
-order: 1
+order: 2
 ---
 
 ## The problem

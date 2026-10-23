@@ -35,7 +35,7 @@ test.describe("home page", () => {
   test("project cards open their case study", async ({ page }) => {
     const cards = page.locator("#projects article h3 a");
     const hrefs = await cards.evaluateAll((links) => links.map((a) => a.getAttribute("href")));
-    expect(hrefs.length).toBe(3);
+    expect(hrefs.length).toBe(4);
     for (const href of hrefs) {
       const response = await page.request.get(href!);
       expect(response.status(), href!).toBe(200);

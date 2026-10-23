@@ -8,7 +8,7 @@ stack: [Java, Spring Boot, JWT, OAuth2, SSL, React, TypeScript, Microservices, F
 cover: ../../assets/projects/social-media-data-model.png
 coverAlt: Database diagram of the social media platform with users, posts, comments, likes, shares, friendships, messages and roles
 repo: https://github.com/S24-SWER313/project-404
-order: 3
+order: 4
 ---
 
 ## What we built

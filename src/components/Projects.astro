@@ -10,9 +10,9 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
   id="projects"
   index="03"
   title="Projects"
-  intro="Selected work across mobile, automation and full-stack web. Each one links to a short case study and the source code."
+  intro="Selected work for clients and my own projects, across web, mobile and automation. Each one links to a short case study and the live site or source code."
 >
-  <div class="grid gap-6 md:grid-cols-2">
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {projects.map((project, i) => (
       <ProjectCard project={project} featured={i === 0} />
     ))}
