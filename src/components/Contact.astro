@@ -23,24 +23,44 @@ const items = ["Full-stack development", "Arabic & English", "Ships to productio
       <div class="bg-ink h-3.5 w-full max-w-[22rem] rounded-full" aria-hidden="true"></div>
       <div class="w-full max-w-[20rem] overflow-hidden">
         <div class="ticket-paper bg-surface border-border rounded-b-md border border-t-0 px-6 pt-6 pb-7 font-mono text-sm leading-7 shadow-[0_18px_30px_-18px_rgba(40,50,25,0.5)]">
-          <p class="text-center font-semibold tracking-widest">ORDER #{orderNumber}</p>
-          <p class="text-muted text-center text-xs">TABLE: YOUR TEAM</p>
-          <hr class="border-ink my-3 border-dashed" />
-          <p class="flex justify-between gap-4">
-            <span>1x Software Engineer</span>
-            <span aria-hidden="true">✓</span>
-          </p>
-          {items.map((item) => (
-            <p class="text-muted flex justify-between gap-4">
-              <span>+ {item}</span>
+          <div data-ticket-default>
+            <p class="text-center font-semibold tracking-widest">ORDER #{orderNumber}</p>
+            <p class="text-muted text-center text-xs">TABLE: YOUR TEAM</p>
+            <hr class="border-ink my-3 border-dashed" />
+            <p class="flex justify-between gap-4">
+              <span>1x Software Engineer</span>
               <span aria-hidden="true">✓</span>
             </p>
-          ))}
-          <hr class="border-ink my-3 border-dashed" />
-          <p class="flex justify-between gap-4 font-semibold">
-            <span>STATUS</span>
-            <span class="text-accent">READY TO START</span>
-          </p>
+            {items.map((item) => (
+              <p class="text-muted flex justify-between gap-4">
+                <span>+ {item}</span>
+                <span aria-hidden="true">✓</span>
+              </p>
+            ))}
+            <hr class="border-ink my-3 border-dashed" />
+            <p class="flex justify-between gap-4 font-semibold">
+              <span>STATUS</span>
+              <span class="text-accent">READY TO START</span>
+            </p>
+          </div>
+
+          <!-- Shown after the contact form sends a message. -->
+          <div data-ticket-received hidden>
+            <p class="text-center font-semibold tracking-widest">ORDER RECEIVED ✓</p>
+            <p class="text-muted text-center text-xs">THANK YOU FOR YOUR MESSAGE</p>
+            <hr class="border-ink my-3 border-dashed" />
+            <p class="flex justify-between gap-4">
+              <span>FROM</span>
+              <span class="truncate" data-ticket-name></span>
+            </p>
+            <p class="flex justify-between gap-4">
+              <span>1x Message</span>
+              <span aria-hidden="true">✓</span>
+            </p>
+            <hr class="border-ink my-3 border-dashed" />
+            <p class="font-semibold">STATUS</p>
+            <p class="text-accent">I'll reply by email soon</p>
+          </div>
           <a
             href={`mailto:${site.email}`}
             class="text-accent mt-4 flex items-center justify-center gap-2 text-xs break-all hover:underline"
@@ -97,5 +117,22 @@ const items = ["Full-stack development", "Arabic & English", "Ships to productio
     );
     observer.observe(ticket);
     ticket.querySelector("[data-reprint]")?.addEventListener("click", print);
+
+    // ContactForm fires this after a message is sent: print a "received" ticket with the sender's name.
+    document.addEventListener("contact:sent", (event) => {
+      const name = (event as CustomEvent<{ name: string }>).detail.name.trim().slice(0, 40);
+      const nameSlot = ticket.querySelector<HTMLElement>("[data-ticket-name]");
+      if (nameSlot) nameSlot.textContent = name; // Plain text only, never HTML.
+      ticket.querySelector<HTMLElement>("[data-ticket-default]")?.setAttribute("hidden", "");
+      ticket.querySelector<HTMLElement>("[data-ticket-received]")?.removeAttribute("hidden");
+      observer.disconnect();
+      print();
+
+      const box = ticket.getBoundingClientRect();
+      if (box.top < 0 || box.bottom > window.innerHeight) {
+        const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+        ticket.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+      }
+    });
   }
 </script>

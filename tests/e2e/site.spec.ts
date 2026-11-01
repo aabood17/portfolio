@@ -102,6 +102,9 @@ test.describe("contact form", () => {
       await expect(page.getByText("Thanks! Your message was sent.")).toBeVisible();
       expect(body.email).toBe("visitor@example.com");
       expect(body.botcheck).toBeUndefined();
+      const ticket = page.locator("[data-ticket-received]");
+      await expect(ticket.getByText("ORDER RECEIVED")).toBeVisible();
+      await expect(ticket.getByText("Test Visitor")).toBeVisible();
     } else {
       await expect(page.getByText("The form isn't connected yet.")).toBeVisible();
     }

@@ -84,7 +84,7 @@ const inputClass =
   <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
     <button
       type="submit"
-      class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
+      class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full px-7 py-3 whitespace-nowrap text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
     >
       <span data-label>Send message</span>
       <Icon name="arrowRight" class="size-4" />
@@ -149,6 +149,7 @@ const inputClass =
         const result = await response.json();
         if (!response.ok || !result.success) throw new Error(result.message);
 
+        document.dispatchEvent(new CustomEvent("contact:sent", { detail: { name: String(data.name ?? "") } }));
         form.reset();
         fields.forEach((field) => field.removeAttribute("aria-invalid"));
         showStatus("Thanks! Your message was sent. I'll get back to you soon.", true);
