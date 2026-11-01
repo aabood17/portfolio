@@ -18,6 +18,8 @@ const projects = defineCollection({
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),
       repo: z.url().optional(),
       live: z.url().optional(),
+      /** Headline numbers shown on the featured card. Only real, checked figures. */
+      stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       order: z.number(),
     }),
 });
@@ -30,6 +32,7 @@ const experience = defineCollection({
     organization: z.string(),
     period: z.string(),
     repo: z.url().optional(),
+    live: z.url().optional(),
     order: z.number(),
   }),
 });

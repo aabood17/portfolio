@@ -18,7 +18,7 @@ const links = primaryOnly ? socials.filter((s) => s.primary) : socials;
         href={link.href}
         target={link.id === "email" ? undefined : "_blank"}
         rel={link.id === "email" ? undefined : "noopener noreferrer"}
-        class="text-muted hover:text-accent hover:bg-accent-soft grid size-10 place-items-center rounded-md transition-colors"
+        class="text-muted hover:text-accent hover:bg-accent-soft grid size-10 place-items-center rounded-full transition-colors"
         aria-label={link.label}
         title={link.label}
       >

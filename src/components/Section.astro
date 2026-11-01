@@ -11,13 +11,13 @@ const { id, index, title, intro, class: className } = Astro.props;
 ---
 
 <section id={id} aria-labelledby={`${id}-title`} class:list={["border-border border-t", className]}>
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-    <div class="mb-10 max-w-2xl sm:mb-12">
-      <p class="text-accent font-mono text-sm">{index}</p>
-      <h2 id={`${id}-title`} class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="mb-12 flex max-w-3xl flex-col gap-4 sm:mb-14" data-reveal>
+      <p class="text-clay font-mono text-sm font-semibold tracking-widest">{index}</p>
+      <h2 id={`${id}-title`} class="font-display text-4xl leading-none font-extrabold tracking-[-0.03em] sm:text-6xl">
         {title}
       </h2>
-      {intro && <p class="text-muted mt-4 text-lg leading-relaxed">{intro}</p>}
+      {intro && <p class="text-muted text-lg leading-relaxed text-pretty">{intro}</p>}
     </div>
     <slot />
   </div>

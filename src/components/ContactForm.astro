@@ -5,7 +5,7 @@ import { site } from "../data/site";
 // Web3Forms access keys are designed to be public: they only allow sending to the owner's inbox.
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "";
 const inputClass =
-  "border-border bg-surface placeholder:text-muted/70 focus:border-accent focus:ring-accent/30 mt-2 block w-full rounded-md border px-4 py-3 text-base outline-none focus:ring-4 aria-[invalid=true]:border-danger";
+  "border-border bg-surface placeholder:text-muted/70 focus:border-accent focus:ring-accent/30 mt-2 block w-full rounded-xl border px-4 py-3 text-base outline-none focus:ring-4 aria-[invalid=true]:border-danger";
 ---
 
 <form
@@ -14,7 +14,7 @@ const inputClass =
   action="https://api.web3forms.com/submit"
   method="POST"
   novalidate
-  class="border-border bg-surface rounded-xl border p-6 sm:p-8"
+  class="border-border bg-surface rounded-3xl border p-6 sm:p-8"
 >
   <input type="hidden" name="subject" value={`New message from ${site.shortName}'s portfolio`} />
   <input type="hidden" name="from_name" value="Portfolio contact form" />
@@ -84,7 +84,7 @@ const inputClass =
   <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
     <button
       type="submit"
-      class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
+      class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
     >
       <span data-label>Send message</span>
       <Icon name="arrowRight" class="size-4" />

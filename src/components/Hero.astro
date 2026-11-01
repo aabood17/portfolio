@@ -4,73 +4,122 @@ import Icon from "./Icon.astro";
 import SocialLinks from "./SocialLinks.astro";
 import profile from "../assets/profile.jpeg";
 import { site } from "../data/site";
+
+// The first word is repeated at the end so the cycling animation loops without a jump.
+const words = [...site.builds, site.builds[0]];
 ---
 
-<section aria-labelledby="hero-title" class="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-20 sm:pb-24">
-  <div class="grid items-center gap-12 md:grid-cols-[1fr_auto] md:gap-16">
-    <div class="order-2 md:order-1">
-      <p class="border-border bg-surface text-muted inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm">
-        <span class="relative flex size-2" aria-hidden="true">
-          <span class="bg-success absolute inline-flex size-full animate-ping rounded-full opacity-60"></span>
-          <span class="bg-success relative inline-flex size-2 rounded-full"></span>
-        </span>
-        {site.availability}
-      </p>
+<section aria-labelledby="hero-title" class="relative overflow-hidden">
+  <p
+    class="font-arabic pointer-events-none absolute top-6 -right-8 hidden text-[15rem] leading-none font-bold text-transparent select-none lg:block"
+    style="-webkit-text-stroke: 1.5px color-mix(in srgb, var(--accent) 24%, transparent)"
+    lang="ar"
+    dir="rtl"
+    aria-hidden="true"
+  >
+    عبدالله
+  </p>
 
-      <h1 id="hero-title" class="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-        {site.name}
-      </h1>
-      <p class="text-accent mt-3 font-mono text-lg sm:text-xl">{site.role}</p>
-      <p class="text-muted mt-6 max-w-xl text-lg leading-relaxed text-pretty">{site.pitch}</p>
-      <p class="text-muted mt-4 flex items-center gap-2 text-sm">
-        <Icon name="mapPin" class="size-4" />
-        {site.location}
-      </p>
+  <div class="relative mx-auto max-w-6xl px-4 pt-12 pb-20 sm:px-6 sm:pt-20 sm:pb-28">
+    <div class="grid items-center gap-12 md:grid-cols-[1fr_auto] md:gap-16">
+      <div class="order-2 md:order-1">
+        <p class="border-border bg-surface text-muted animate-rise inline-flex items-center gap-2.5 rounded-full border px-3.5 py-1.5 text-sm">
+          <span class="relative flex size-2" aria-hidden="true">
+            <span class="bg-success absolute inline-flex size-full animate-ping rounded-full opacity-60"></span>
+            <span class="bg-success relative inline-flex size-2 rounded-full"></span>
+          </span>
+          {site.availability}
+        </p>
 
-      <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a
-          href="#projects"
-          class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-colors"
+        <h1
+          id="hero-title"
+          class="font-display animate-rise mt-7 text-5xl leading-[0.95] font-extrabold tracking-[-0.035em] sm:text-7xl lg:text-8xl"
+          style="animation-delay: 0.1s"
         >
-          View projects
-          <Icon name="arrowRight" class="size-4" />
-        </a>
-        <a
-          href="#contact"
-          class="border-border bg-surface hover:border-accent hover:text-accent inline-flex items-center gap-2 rounded-md border px-5 py-3 text-sm font-semibold transition-colors"
+          {site.name}
+        </h1>
+
+        <p
+          class="font-display animate-rise mt-7 text-2xl leading-[1.2] font-semibold sm:text-3xl"
+          style="animation-delay: 0.25s"
         >
-          Contact me
-        </a>
-        <a
-          href={site.cvPath}
-          download="Abdullah-Abu-Riala-CV.pdf"
-          class="text-muted hover:text-accent inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold transition-colors"
+          <span>Software engineer who builds</span>
+          <span class="sr-only">{site.builds.join(", ")}</span>
+          <span class="text-accent relative inline-block h-[1.2em] overflow-hidden align-bottom" aria-hidden="true">
+            <span class="animate-words block">
+              {words.map((word) => (
+                <span class="block h-[1.2em] whitespace-nowrap">{word}</span>
+              ))}
+            </span>
+          </span>
+        </p>
+
+        <p
+          class="text-muted animate-rise mt-6 max-w-xl text-lg leading-relaxed text-pretty"
+          style="animation-delay: 0.4s"
         >
-          <Icon name="download" class="size-4" />
-          Download CV
-        </a>
+          {site.pitch}
+        </p>
+
+        <div class="animate-rise mt-9 flex flex-wrap items-center gap-3" style="animation-delay: 0.55s">
+          <a
+            href="#projects"
+            class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold transition hover:-translate-y-0.5"
+          >
+            See my work
+            <Icon name="arrowRight" class="size-4" />
+          </a>
+          <a
+            href="#contact"
+            class="border-ink hover:bg-ink hover:text-ink-fg inline-flex min-h-12 items-center rounded-full border-[1.5px] px-6 text-sm font-semibold transition"
+          >
+            Say hello
+          </a>
+          <a
+            href={site.cvPath}
+            download="Abdullah-Abu-Riala-CV.pdf"
+            class="text-muted hover:text-accent inline-flex min-h-12 items-center gap-2 px-2 text-sm font-semibold transition-colors"
+          >
+            <Icon name="download" class="size-4" />
+            Download CV
+          </a>
+        </div>
+
+        <div class="animate-rise mt-8 -ml-2" style="animation-delay: 0.7s">
+          <SocialLinks primaryOnly />
+        </div>
       </div>
 
-      <div class="mt-8 -ml-2">
-        <SocialLinks primaryOnly />
-      </div>
-    </div>
-
-    <div class="order-1 mx-auto md:order-2">
-      <div class="relative">
-        <div class="border-accent/40 absolute -inset-3 rounded-full border" aria-hidden="true"></div>
-        <Image
-          src={profile}
-          alt={`Portrait of ${site.name}`}
-          width={480}
-          height={480}
-          widths={[224, 416, 480]}
-          sizes="(min-width: 768px) 208px, 176px"
-          quality={90}
-          loading="eager"
-          fetchpriority="high"
-          class="border-surface relative size-44 rounded-full border-4 object-cover shadow-sm md:size-52"
-        />
+      <div class="animate-rise order-1 mx-auto md:order-2" style="animation-delay: 0.2s">
+        <div class="relative size-64 sm:size-80">
+          <svg class="animate-spin-slow absolute inset-0 size-full" viewBox="0 0 320 320" aria-hidden="true">
+            <defs>
+              <path id="hero-ring" d="M160,160 m-146,0 a146,146 0 1,1 292,0 a146,146 0 1,1 -292,0"></path>
+            </defs>
+            <text class="fill-accent font-sans text-[13px] font-semibold tracking-[4.2px]">
+              <textPath href="#hero-ring">SOFTWARE ENGINEER · BETHLEHEM · PALESTINE · BUILDER · </textPath>
+            </text>
+          </svg>
+          <Image
+            src={profile}
+            alt={`Portrait of ${site.name}`}
+            width={480}
+            height={480}
+            widths={[256, 416, 480]}
+            sizes="(min-width: 640px) 252px, 202px"
+            quality={90}
+            loading="eager"
+            fetchpriority="high"
+            class="border-surface absolute inset-[10.6%] size-[78.8%] rounded-full border-[6px] object-cover shadow-[0_24px_50px_-24px_rgba(40,50,25,0.5)]"
+          />
+          <span
+            class="bg-clay font-arabic absolute right-1 bottom-8 -rotate-6 rounded-2xl px-3.5 py-2 text-lg font-bold text-white shadow-md"
+            lang="ar"
+            title="Bethlehem"
+          >
+            بيت لحم
+          </span>
+        </div>
       </div>
     </div>
   </div>

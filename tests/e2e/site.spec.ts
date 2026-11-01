@@ -1,6 +1,6 @@
 ﻿import { expect, test } from "@playwright/test";
 
-const sections = ["About me", "Skills", "Projects", "Experience & education", "Work with me", "Let's talk"];
+const sections = ["Selected work", "About me", "Skills", "Experience & education", "Work with me", "Let's talk"];
 
 test.describe("home page", () => {
   test.beforeEach(async ({ page }) => {

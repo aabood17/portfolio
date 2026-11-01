@@ -10,19 +10,25 @@ export const site = {
   cvPath: "/cv.pdf",
   title: "Abdullah Abu Riala | Software Engineer",
   description:
-    "Software Engineer from Bethlehem, Palestine. Full-stack development with Java/Spring Boot, PHP/Laravel, React and Flutter. Open to full-time roles and freelance projects.",
+    "Software Engineer from Bethlehem, Palestine. Full-stack development with Java/Spring Boot, PHP/Laravel, React/Next.js and Flutter. Open to full-time roles and freelance projects.",
+  /** Hero line: "Software engineer who builds" + one of these, cycling. */
+  builds: ["full-stack web apps.", "APIs with Spring Boot.", "mobile apps in Flutter.", "products people use."],
   pitch:
-    "I build full-stack web and mobile applications with Java/Spring Boot, PHP/Laravel, React and Flutter, from design through deployment.",
+    "Based in Bethlehem, Palestine. I take products from the first conversation to a live release, and I recently shipped one for a paying client.",
   availability: "Open to full-time roles and freelance projects",
+  /** Big statement at the top of the About section. */
+  statement: "I care about software that real people rely on every day.",
   summary: [
-    "I'm a Software Engineer with a B.S. from Bethlehem University and hands-on experience across the full stack: Java/Spring Boot, PHP/Laravel, React, and Flutter.",
-    "I've built and shipped e-commerce, social networking, and AI-assisted navigation applications from design through deployment. I'm comfortable moving between frontend, backend, and mobile, and I use generative AI tools in practice to speed up development.",
-    "I'm looking for a Software Engineer role where I can contribute strong fundamentals, fast learning, and a builder's mindset, and I take on freelance projects for businesses.",
+    "I'm a Software Engineer with a B.S. from Bethlehem University and hands-on experience across the full stack: Java/Spring Boot, PHP/Laravel, React/Next.js, and Flutter.",
+    "Most recently I delivered a bilingual QR menu and website for a paying restaurant client, from the first meeting to a live site the owner updates himself. Before that I built e-commerce, social networking, and AI-assisted navigation applications.",
+    "I've also worked part-time in restaurants since 2020, alongside my studies. It taught me to stay calm under pressure, work as a team, and listen to what people actually need.",
+    "I'm looking for a Software Engineer role where I can bring strong fundamentals and ownership, and I take on freelance projects for businesses.",
   ],
   facts: [
     { label: "Based in", value: "Bethlehem, Palestine" },
     { label: "Degree", value: "B.S. Software Engineering" },
     { label: "Languages", value: "Arabic (native), English (professional)" },
+    { label: "Currently", value: "Open to full-time roles and freelance" },
   ],
 } as const;
 
@@ -64,21 +70,24 @@ export const socials: SocialLink[] = [
 ];
 
 export const nav = [
+  { label: "Work", href: "/#projects" },
   { label: "About", href: "/#about" },
   { label: "Skills", href: "/#skills" },
-  { label: "Projects", href: "/#projects" },
   { label: "Experience", href: "/#experience" },
   { label: "Services", href: "/#services" },
   { label: "Contact", href: "/#contact" },
 ];
 
 export const skillGroups = [
-  { title: "Languages", items: ["Java", "PHP", "Python", "Dart"] },
+  { title: "Languages", items: ["Java", "PHP", "Python", "Dart", "TypeScript", "JavaScript"] },
   { title: "Backend", items: ["Spring Boot", "Laravel", "REST APIs", "JWT", "OAuth2", "MySQL", "Firebase"] },
-  { title: "Frontend", items: ["React", "TypeScript", "HTML/CSS/JavaScript", "Tailwind CSS"] },
+  { title: "Frontend", items: ["React", "Next.js", "HTML/CSS", "Tailwind CSS", "Sanity CMS"] },
   { title: "Mobile", items: ["Flutter"] },
-  { title: "Tools & Practices", items: ["Git", "GitHub", "Docker", "Agile/Scrum", "Figma"] },
-  { title: "AI Tools", items: ["Prompt Engineering", "ChatGPT", "Google Gemini"] },
+  {
+    title: "Tools & Practices",
+    items: ["Git", "GitHub Actions (CI/CD)", "Docker", "Cloudflare Pages", "Vitest", "Agile/Scrum", "Figma"],
+  },
+  { title: "AI Tools", items: ["AI-assisted development (Claude Code)", "Prompt Engineering"] },
 ];
 
 export interface Certification {

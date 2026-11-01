@@ -3,6 +3,9 @@ import Section from "./Section.astro";
 import ContactForm from "./ContactForm.astro";
 import Icon from "./Icon.astro";
 import { site, socials } from "../data/site";
+
+const orderNumber = new Date().getFullYear();
+const items = ["Full-stack development", "Arabic & English", "Ships to production", "Learns fast"];
 ---
 
 <Section
@@ -11,42 +14,88 @@ import { site, socials } from "../data/site";
   title="Let's talk"
   intro="Hiring, a freelance project, or just a question? Send me a message and I'll reply by email."
 >
-  <div class="grid gap-10 lg:grid-cols-[3fr_2fr] lg:gap-16">
-    <ContactForm />
+  <div class="grid gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
+    <div data-reveal>
+      <ContactForm />
+    </div>
 
-    <div class="space-y-6">
-      <div class="border-border bg-surface rounded-xl border p-6">
-        <h3 class="font-bold">Email me directly</h3>
-        <a
-          href={`mailto:${site.email}`}
-          class="text-accent mt-2 inline-flex items-center gap-2 break-all hover:underline"
-        >
-          <Icon name="mail" class="size-4 shrink-0" />
-          {site.email}
-        </a>
+    <div class="flex flex-col items-center" data-ticket>
+      <div class="bg-ink h-3.5 w-full max-w-[22rem] rounded-full" aria-hidden="true"></div>
+      <div class="w-full max-w-[20rem] overflow-hidden">
+        <div class="ticket-paper bg-surface border-border rounded-b-md border border-t-0 px-6 pt-6 pb-7 font-mono text-sm leading-7 shadow-[0_18px_30px_-18px_rgba(40,50,25,0.5)]">
+          <p class="text-center font-semibold tracking-widest">ORDER #{orderNumber}</p>
+          <p class="text-muted text-center text-xs">TABLE: YOUR TEAM</p>
+          <hr class="border-ink my-3 border-dashed" />
+          <p class="flex justify-between gap-4">
+            <span>1x Software Engineer</span>
+            <span aria-hidden="true">✓</span>
+          </p>
+          {items.map((item) => (
+            <p class="text-muted flex justify-between gap-4">
+              <span>+ {item}</span>
+              <span aria-hidden="true">✓</span>
+            </p>
+          ))}
+          <hr class="border-ink my-3 border-dashed" />
+          <p class="flex justify-between gap-4 font-semibold">
+            <span>STATUS</span>
+            <span class="text-accent">READY TO START</span>
+          </p>
+          <a
+            href={`mailto:${site.email}`}
+            class="text-accent mt-4 flex items-center justify-center gap-2 text-xs break-all hover:underline"
+          >
+            <Icon name="mail" class="size-4 shrink-0" />
+            {site.email}
+          </a>
+          <ul class="mt-3 flex justify-center gap-1">
+            {socials
+              .filter((s) => s.id !== "email")
+              .map((s) => (
+                <li>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-muted hover:text-accent hover:bg-accent-soft grid size-10 place-items-center rounded-full transition-colors"
+                    aria-label={s.label}
+                    title={s.label}
+                  >
+                    <Icon name={s.id === "email" ? "mail" : s.id} class="size-[1.1rem]" />
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
-
-      <div class="border-border bg-surface rounded-xl border p-6">
-        <h3 class="font-bold">Find me online</h3>
-        <ul class="mt-4 space-y-3">
-          {socials
-            .filter((s) => s.id !== "email")
-            .map((s) => (
-              <li>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group hover:text-accent flex items-center gap-3"
-                >
-                  <Icon name={s.id === "email" ? "mail" : s.id} class="text-muted group-hover:text-accent size-5" />
-                  <span class="font-medium">{s.label}</span>
-                  <span class="text-muted truncate text-sm">{s.handle}</span>
-                </a>
-              </li>
-            ))}
-        </ul>
-      </div>
+      <button
+        type="button"
+        data-reprint
+        class="text-muted hover:text-accent mt-5 min-h-11 px-3 font-mono text-xs tracking-widest uppercase transition-colors"
+      >
+        Print another ticket
+      </button>
     </div>
   </div>
 </Section>
+
+<script>
+  const ticket = document.querySelector<HTMLElement>("[data-ticket]");
+  if (ticket) {
+    const print = () => {
+      ticket.classList.remove("is-printed");
+      void ticket.offsetWidth; // Restart the CSS animation.
+      ticket.classList.add("is-printed");
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        print();
+        observer.disconnect();
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(ticket);
+    ticket.querySelector("[data-reprint]")?.addEventListener("click", print);
+  }
+</script>

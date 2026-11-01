@@ -14,11 +14,14 @@ const icons = ["globe", "layout", "smartphone"] as const;
 >
   <ul class="grid gap-6 md:grid-cols-3">
     {services.map((service, i) => (
-      <li class="border-border bg-surface rounded-xl border p-6">
-        <span class="bg-accent-soft text-accent grid size-11 place-items-center rounded-lg" aria-hidden="true">
+      <li
+        class="border-border bg-surface rounded-3xl border p-7 transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(40,50,25,0.45)]"
+        data-reveal
+      >
+        <span class="bg-accent text-accent-fg grid size-12 place-items-center rounded-2xl" aria-hidden="true">
           <Icon name={icons[i] ?? "code"} class="size-5" />
         </span>
-        <h3 class="mt-5 text-lg font-bold">{service.title}</h3>
+        <h3 class="font-display mt-6 text-xl font-bold">{service.title}</h3>
         <p class="text-muted mt-2 leading-relaxed">{service.description}</p>
       </li>
     ))}

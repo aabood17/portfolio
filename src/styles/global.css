@@ -4,31 +4,37 @@
 
 /* Design tokens: components use the semantic names below, never raw hex values. */
 :root {
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --text: #1c1917;
-  --muted: #57534e;
-  --border: #e7e5e4;
-  --accent: #1e3a5f;
-  --accent-hover: #162c48;
-  --accent-fg: #ffffff;
-  --accent-soft: #eaf0f7;
-  --success: #15803d;
+  --bg: #f3efe6;
+  --surface: #fbf9f4;
+  --text: #1b1c17;
+  --muted: #4a4b43;
+  --border: #ddd5c5;
+  --accent: #4f6b3a;
+  --accent-hover: #3a5129;
+  --accent-fg: #fbf9f4;
+  --accent-soft: #e6eadb;
+  --clay: #a8402a;
+  --ink: #1b1c17;
+  --ink-fg: #f3efe6;
+  --success: #3f6b2a;
   --danger: #b91c1c;
   color-scheme: light;
 }
 
 .dark {
-  --bg: #0b0e13;
-  --surface: #121720;
-  --text: #e6e8ec;
-  --muted: #9ba3b1;
-  --border: #242b37;
-  --accent: #8fb5e6;
-  --accent-hover: #adc9ee;
-  --accent-fg: #0b0e13;
-  --accent-soft: #15213a;
-  --success: #4ade80;
+  --bg: #12140f;
+  --surface: #1a1d16;
+  --text: #ece8de;
+  --muted: #aaa99d;
+  --border: #2e3228;
+  --accent: #a9c48a;
+  --accent-hover: #c0d6a5;
+  --accent-fg: #12140f;
+  --accent-soft: #232a1c;
+  --clay: #e58a70;
+  --ink: #ece8de;
+  --ink-fg: #12140f;
+  --success: #8fce6a;
   --danger: #f87171;
   color-scheme: dark;
 }
@@ -43,10 +49,15 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-fg: var(--accent-fg);
   --color-accent-soft: var(--accent-soft);
+  --color-clay: var(--clay);
+  --color-ink: var(--ink);
+  --color-ink-fg: var(--ink-fg);
   --color-success: var(--success);
   --color-danger: var(--danger);
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  --font-display: "Bricolage Grotesque Variable", "Inter Variable", ui-sans-serif, sans-serif;
+  --font-arabic: "Reem Kufi Variable", ui-sans-serif, sans-serif;
 }
 
 @layer base {
@@ -73,7 +84,7 @@
   @apply text-lg leading-relaxed;
 
   & h2 {
-    @apply mt-12 mb-4 text-2xl font-bold tracking-tight first:mt-0;
+    @apply font-display mt-12 mb-4 text-3xl font-extrabold tracking-tight first:mt-0;
   }
   & p {
     @apply text-muted mt-4;
@@ -92,7 +103,108 @@
   }
 }
 
+/* Motion. Every animation below is switched off for visitors who ask for reduced motion. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes words {
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+  25%,
+  45% {
+    transform: translateY(-1.2em);
+  }
+  50%,
+  70% {
+    transform: translateY(-2.4em);
+  }
+  75%,
+  95% {
+    transform: translateY(-3.6em);
+  }
+  100% {
+    transform: translateY(-4.8em);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes print-ticket {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.animate-words {
+  animation: words 12s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+/* Scroll reveal: only hidden when JS runs, so the page stays readable without it. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Printed order ticket in the contact section. */
+.ticket-paper {
+  transform: translateY(-100%);
+}
+.is-printed .ticket-paper {
+  animation: print-ticket 1.8s steps(16) both;
+}
+html:not(.js) .ticket-paper {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  .ticket-paper {
+    transform: none;
+  }
+  .animate-words,
+  .animate-marquee,
+  .animate-spin-slow {
+    animation: none !important;
+  }
+
   html {
     scroll-behavior: auto;
   }

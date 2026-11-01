@@ -1,16 +1,34 @@
 ---
 import Section from "./Section.astro";
 import { skillGroups } from "../data/site";
+
+const highlights = ["Java", "Spring Boot", "Laravel", "React", "Next.js", "Flutter", "Python", "MySQL", "Docker"];
 ---
 
-<Section id="skills" index="02" title="Skills" intro="The tools I use to take a product from design to deployment.">
-  <div class="border-border bg-border grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-3">
+<Section id="skills" index="03" title="Skills" intro="The tools I use to take a product from design to deployment.">
+  <div
+    class="border-border bg-surface -mx-4 overflow-hidden border-y py-5 sm:-mx-6 lg:mx-0 lg:rounded-full lg:border"
+    aria-hidden="true"
+  >
+    <div class="animate-marquee font-display flex w-max gap-10 pr-10 text-3xl font-semibold whitespace-nowrap">
+      {[0, 1].map(() =>
+        highlights.map((skill) => (
+          <>
+            <span>{skill}</span>
+            <span class="text-clay">✕</span>
+          </>
+        )),
+      )}
+    </div>
+  </div>
+
+  <div class="border-border bg-border mt-10 grid gap-px overflow-hidden rounded-3xl border sm:grid-cols-2 lg:grid-cols-3">
     {skillGroups.map((group) => (
-      <div class="bg-surface p-6">
-        <h3 class="font-mono text-sm font-semibold">{group.title}</h3>
+      <div class="bg-surface p-6" data-reveal>
+        <h3 class="font-display text-lg font-bold">{group.title}</h3>
         <ul class="mt-4 flex flex-wrap gap-2">
           {group.items.map((item) => (
-            <li class="bg-accent-soft rounded-md px-2.5 py-1 text-sm">{item}</li>
+            <li class="bg-accent-soft rounded-full px-3 py-1 text-sm">{item}</li>
           ))}
         </ul>
       </div>

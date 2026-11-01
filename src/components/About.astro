@@ -3,17 +3,24 @@ import Section from "./Section.astro";
 import { site } from "../data/site";
 ---
 
-<Section id="about" index="01" title="About me">
-  <div class="grid gap-10 md:grid-cols-[3fr_2fr] md:gap-16">
-    <div class="space-y-5 text-lg leading-relaxed">
+<Section id="about" index="02" title="About me">
+  <p
+    class="font-display max-w-4xl text-3xl leading-[1.15] font-semibold tracking-[-0.02em] text-balance sm:text-5xl"
+    data-reveal
+  >
+    {site.statement}
+  </p>
+
+  <div class="mt-14 grid gap-10 md:grid-cols-[3fr_2fr] md:gap-16">
+    <div class="text-muted space-y-5 text-lg leading-relaxed" data-reveal>
       {site.summary.map((paragraph) => (
         <p class="text-pretty">{paragraph}</p>
       ))}
     </div>
-    <dl class="border-border bg-surface divide-border divide-y self-start rounded-xl border">
+    <dl class="border-border bg-surface divide-border divide-y self-start rounded-3xl border" data-reveal>
       {site.facts.map((fact) => (
-        <div class="px-5 py-4">
-          <dt class="text-muted font-mono text-xs tracking-wide uppercase">{fact.label}</dt>
+        <div class="px-6 py-4">
+          <dt class="text-clay font-mono text-xs font-semibold tracking-widest uppercase">{fact.label}</dt>
           <dd class="mt-1 font-medium">{fact.value}</dd>
         </div>
       ))}

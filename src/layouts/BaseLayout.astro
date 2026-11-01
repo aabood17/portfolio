@@ -1,6 +1,8 @@
 ---
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/reem-kufi";
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
 import Header from "../components/Header.astro";
@@ -41,8 +43,8 @@ const personJsonLd = {
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0e13" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12140f" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -67,6 +69,7 @@ const personJsonLd = {
         } catch {}
         const dark = theme ? theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.classList.toggle("dark", dark);
+        document.documentElement.classList.add("js");
       })();
     </script>
   </head>
@@ -83,5 +86,19 @@ const personJsonLd = {
     </main>
     <Footer />
     <Analytics />
+    <script>
+      // Reveal sections as they scroll into view (see [data-reveal] in global.css).
+      const reveal = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add("is-visible");
+            reveal.unobserve(entry.target);
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px" },
+      );
+      document.querySelectorAll("[data-reveal]").forEach((el) => reveal.observe(el));
+    </script>
   </body>
 </html>

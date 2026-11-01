@@ -10,17 +10,17 @@ const rendered = await Promise.all(entries.map(async (entry) => ({ entry, ...(aw
 
 <Section id="experience" index="04" title="Experience & education">
   <div class="grid gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
-    <ol class="border-border relative space-y-10 border-l pl-8">
+    <ol class="border-border relative space-y-12 border-l-2 border-dashed pl-9">
       {rendered.map(({ entry, Content }) => (
-        <li class="relative">
+        <li class="relative" data-reveal>
           <span
-            class="border-border bg-surface text-accent absolute top-0 -left-[3.05rem] grid size-9 place-items-center rounded-full border"
+            class="bg-accent text-accent-fg absolute top-0 -left-[3.45rem] grid size-10 place-items-center rounded-full"
             aria-hidden="true"
           >
             <Icon name={entry.data.kind === "work" ? "briefcase" : "graduation"} class="size-4" />
           </span>
-          <p class="text-muted font-mono text-sm">{entry.data.period}</p>
-          <h3 class="mt-1 text-lg font-bold">{entry.data.title}</h3>
+          <p class="text-clay font-mono text-sm font-semibold">{entry.data.period}</p>
+          <h3 class="font-display mt-1 text-2xl font-bold tracking-tight">{entry.data.title}</h3>
           <p class="text-accent font-medium">{entry.data.organization}</p>
           <div class="text-muted prose-list mt-3 leading-relaxed">
             <Content />
@@ -37,18 +37,30 @@ const rendered = await Promise.all(entries.map(async (entry) => ({ entry, ...(aw
               <Icon name="arrowUpRight" class="size-3.5" />
             </a>
           )}
+          {entry.data.live && (
+            <a
+              href={entry.data.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-accent mt-3 inline-flex items-center gap-1.5 text-sm font-semibold"
+            >
+              <Icon name="globe" class="size-4" />
+              Visit the live site
+              <Icon name="arrowUpRight" class="size-3.5" />
+            </a>
+          )}
         </li>
       ))}
     </ol>
 
     <div>
-      <h3 class="flex items-center gap-2 text-lg font-bold">
+      <h3 class="font-display flex items-center gap-2 text-xl font-bold">
         <Icon name="award" class="text-accent size-5" />
         Certifications & training
       </h3>
-      <ul class="border-border bg-surface divide-border mt-5 divide-y rounded-xl border">
+      <ul class="border-border bg-surface divide-border mt-5 divide-y rounded-3xl border" data-reveal>
         {certifications.map((cert) => (
-          <li class="px-5 py-4">
+          <li class="px-6 py-4">
             <p class="font-medium">{cert.title}</p>
             <p class="text-muted mt-1 text-sm">
               {cert.issuer} · {cert.year}

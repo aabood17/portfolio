@@ -1,5 +1,5 @@
 ---
-// Printable CV, same content as Abdullah's CV (src/data/cv.ts) without the phone number.
+// Printable CV, same content as Abdullah's official CV (src/data/cv.ts) without the phone number.
 // `npm run cv` prints this page to public/cv.pdf.
 import "@fontsource-variable/inter";
 import { cv } from "../data/cv";
@@ -38,6 +38,52 @@ const siteHost = Astro.site?.host ?? "";
       </section>
 
       <section>
+        <h2>Experience</h2>
+        {cv.experience.map((entry) => (
+          <div class="item">
+            <div class="row">
+              <p>
+                <strong>{entry.title}</strong> — {entry.subtitle} · <a href={entry.link.href}>{entry.link.label}</a>
+              </p>
+              <p class="date">{entry.period}</p>
+            </div>
+            <ul>
+              {entry.bullets.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        {cv.projects.map((entry) => (
+          <div class="item">
+            <p>
+              <strong>{entry.title}</strong> · <a href={entry.link.href}>{entry.link.label}</a>
+            </p>
+            <ul>
+              {entry.bullets.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Technical skills</h2>
+        <ul class="plain">
+          {cv.skills.map((skill) => (
+            <li>
+              <strong>{skill.label}:</strong> {skill.value}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
         <h2>Education</h2>
         {cv.education.map((entry) => (
           <div class="item">
@@ -50,65 +96,6 @@ const siteHost = Astro.site?.host ?? "";
             {entry.bullets.map((line) => (
               <p>{line}</p>
             ))}
-          </div>
-        ))}
-      </section>
-
-      <section>
-        <h2>Technical skills</h2>
-        <ul class="skills">
-          {cv.skills.map((skill) => (
-            <li>
-              <strong>{skill.label}:</strong> {skill.value}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Experience</h2>
-        {cv.experience.map((entry) => (
-          <div class="item">
-            <div class="row">
-              <p>
-                <strong>{entry.title}</strong> — {entry.subtitle}
-              </p>
-              <p class="date">{entry.period}</p>
-            </div>
-            <ul>
-              {entry.bullets.map((line) => (
-                <li>{line}</li>
-              ))}
-              {entry.link && (
-                <li>
-                  Code: <a href={entry.link.href}>{entry.link.label}</a>
-                </li>
-              )}
-            </ul>
-          </div>
-        ))}
-      </section>
-
-      <section>
-        <h2>Projects</h2>
-        {cv.projects.map((entry) => (
-          <div class="item">
-            <div class="row">
-              <p>
-                <strong>{entry.title}</strong>
-              </p>
-              {entry.period && <p class="date">{entry.period}</p>}
-            </div>
-            <ul>
-              {entry.bullets.map((line) => (
-                <li>{line}</li>
-              ))}
-              {entry.link && (
-                <li>
-                  Code: <a href={entry.link.href}>{entry.link.label}</a>
-                </li>
-              )}
-            </ul>
           </div>
         ))}
       </section>
@@ -131,14 +118,9 @@ const siteHost = Astro.site?.host ?? "";
       </section>
 
       <section>
-        <h2>Languages</h2>
-        <p>{cv.languages}</p>
-      </section>
-
-      <section>
-        <h2>Voluntary experience</h2>
+        <h2>Other experience & volunteering</h2>
         <ul>
-          {cv.volunteering.map((line) => (
+          {cv.other.map((line) => (
             <li>{line}</li>
           ))}
         </ul>
@@ -150,7 +132,7 @@ const siteHost = Astro.site?.host ?? "";
 <style is:global>
   @page {
     size: A4;
-    margin: 14mm 16mm;
+    margin: 9mm 14mm;
   }
   html {
     background: #e7e5e4;
@@ -158,15 +140,15 @@ const siteHost = Astro.site?.host ?? "";
   body {
     margin: 0;
     font-family: "Inter Variable", system-ui, sans-serif;
-    font-size: 9.6pt;
-    line-height: 1.45;
+    font-size: 9pt;
+    line-height: 1.36;
     color: #1c1917;
   }
   .cv {
     box-sizing: border-box;
     max-width: 210mm;
     margin: 24px auto;
-    padding: 14mm 16mm;
+    padding: 9mm 14mm;
     background: #fff;
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
   }
@@ -188,25 +170,25 @@ const siteHost = Astro.site?.host ?? "";
   }
   header {
     text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
     border-bottom: 1.5px solid #1e3a5f;
   }
   h1 {
     margin: 0;
     color: #1e3a5f;
-    font-size: 22pt;
+    font-size: 21pt;
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
   .role {
     color: #57534e;
-    font-size: 12pt;
+    font-size: 11.5pt;
     font-style: italic;
   }
   .contact {
-    margin-top: 4px;
+    margin-top: 3px;
     color: #57534e;
-    font-size: 9pt;
+    font-size: 8.8pt;
   }
   .contact > * + *::before {
     content: "|";
@@ -215,14 +197,14 @@ const siteHost = Astro.site?.host ?? "";
     color: #a8a29e;
   }
   section {
-    margin-top: 12px;
+    margin-top: 6px;
   }
   h2 {
-    margin: 0 0 6px;
+    margin: 0 0 5px;
     padding-bottom: 2px;
     border-bottom: 1px solid #d6d3d1;
     color: #1e3a5f;
-    font-size: 10.5pt;
+    font-size: 10.2pt;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -230,7 +212,7 @@ const siteHost = Astro.site?.host ?? "";
     break-inside: avoid;
   }
   .item + .item {
-    margin-top: 8px;
+    margin-top: 6px;
   }
   .row {
     display: flex;
@@ -243,13 +225,13 @@ const siteHost = Astro.site?.host ?? "";
     white-space: nowrap;
   }
   ul {
-    margin: 3px 0 0;
-    padding-left: 18px;
+    margin: 2px 0 0;
+    padding-left: 17px;
   }
   li + li {
-    margin-top: 2px;
+    margin-top: 1px;
   }
-  .skills {
+  .plain {
     padding-left: 0;
     list-style: none;
   }

@@ -4,7 +4,7 @@ title: Full Stack Developer Intern
 organization: Element Media
 period: Jun 2024 – Sep 2024
 repo: https://github.com/Element-Internships/Abdullah_Abu_Riala_Ecommerce
-order: 1
+order: 2
 ---
 
 - Built and shipped a full-stack e-commerce application end-to-end using Laravel, MySQL, and Blade, covering product catalog, checkout, and order tracking.

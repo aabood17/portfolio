@@ -27,8 +27,8 @@ const { Content } = await render(project);
     </a>
 
     <header class="mt-8">
-      <p class="text-accent font-mono text-sm">{context}</p>
-      <h1 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+      <p class="text-clay font-mono text-sm font-semibold tracking-widest uppercase">{context}</p>
+      <h1 class="font-display mt-3 text-5xl leading-none font-extrabold tracking-[-0.035em] sm:text-7xl">{title}</h1>
       <p class="text-muted mt-3 text-xl">{tagline}</p>
 
       <div class="mt-6 flex flex-wrap gap-3">
@@ -37,7 +37,7 @@ const { Content } = await render(project);
             href={repo}
             target="_blank"
             rel="noopener noreferrer"
-            class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold"
+            class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold"
           >
             <Icon name="github" class="size-4" />
             View code
@@ -57,13 +57,13 @@ const { Content } = await render(project);
       </div>
     </header>
 
-    <dl class="border-border bg-surface mt-10 grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2">
+    <dl class="border-border bg-surface mt-10 grid gap-px overflow-hidden rounded-3xl border sm:grid-cols-2">
       <div class="p-5">
-        <dt class="text-muted font-mono text-xs tracking-wide uppercase">My role</dt>
+        <dt class="text-clay font-mono text-xs font-semibold tracking-widest uppercase">My role</dt>
         <dd class="mt-1.5 font-medium">{role}</dd>
       </div>
       <div class="border-border border-t p-5 sm:border-t-0 sm:border-l">
-        <dt class="text-muted font-mono text-xs tracking-wide uppercase">Tech stack</dt>
+        <dt class="text-clay font-mono text-xs font-semibold tracking-widest uppercase">Tech stack</dt>
         <dd class="mt-2">
           <ul class="flex flex-wrap gap-1.5">
             {stack.map((tech) => (
@@ -75,7 +75,7 @@ const { Content } = await render(project);
     </dl>
 
     {cover && (
-      <figure class="border-border bg-accent-soft mt-10 overflow-hidden rounded-xl border">
+      <figure class="border-border bg-accent-soft mt-10 overflow-hidden rounded-3xl border">
         <Image
           src={cover}
           alt={coverAlt ?? ""}
@@ -93,7 +93,7 @@ const { Content } = await render(project);
     {gallery.length > 0 && (
       <div class="mt-12 grid gap-6 sm:grid-cols-2">
         {gallery.map((item) => (
-          <figure class="border-border bg-accent-soft overflow-hidden rounded-xl border">
+          <figure class="border-border bg-accent-soft overflow-hidden rounded-3xl border">
             <Image src={item.src} alt={item.alt} width={700} class="mx-auto max-h-[32rem] w-auto object-contain p-4" />
           </figure>
         ))}
@@ -110,7 +110,7 @@ const { Content } = await render(project);
       </a>
       <a
         href="/#contact"
-        class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold"
+        class="bg-accent text-accent-fg hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
       >
         Get in touch
       </a>

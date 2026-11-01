@@ -15,6 +15,15 @@ gallery:
   - src: ../../assets/projects/bunduq-qr-cards.png
     alt: Print-ready table QR card and QR sticker in the restaurant's brand colors
 live: https://bunduq.ps
+stats:
+  - value: "117"
+    label: menu items
+  - value: "19"
+    label: tables with QR cards
+  - value: ~1 min
+    label: from edit to live
+  - value: $39
+    label: a year to run
 order: 1
 ---
 

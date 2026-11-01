@@ -5,35 +5,36 @@ import Icon from "./Icon.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
-  /** The first project gets a wide, image-led layout. */
+  /** The first project gets a wide, image-led layout with its headline numbers. */
   featured?: boolean;
 }
 
 const { project, featured = false } = Astro.props;
-const { title, tagline, summary, context, stack, cover, coverAlt, repo, live } = project.data;
+const { title, tagline, summary, context, stack, cover, coverAlt, repo, live, stats } = project.data;
 const href = `/projects/${project.id}/`;
 ---
 
 <article
+  data-reveal
   class:list={[
-    "group border-border bg-surface hover:border-accent/60 relative flex flex-col overflow-hidden rounded-xl border transition-colors",
-    featured && "md:col-span-2 md:grid md:grid-cols-2 lg:col-span-3",
+    "group border-border bg-surface relative flex flex-col overflow-hidden rounded-3xl border transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(40,50,25,0.45)]",
+    featured && "md:col-span-3 md:grid md:grid-cols-[1.1fr_1fr]",
   ]}
 >
   <div
     class:list={[
-      "bg-accent-soft border-border relative flex items-center justify-center overflow-hidden border-b",
-      featured ? "aspect-[16/10] md:aspect-auto md:border-r md:border-b-0" : "aspect-[16/10]",
+      "bg-accent-soft relative flex items-center justify-center overflow-hidden",
+      featured ? "aspect-[16/10] md:aspect-auto md:min-h-[26rem]" : "aspect-[16/10]",
     ]}
   >
     {cover ? (
       <Image
         src={cover}
         alt={coverAlt ?? ""}
-        width={featured ? 800 : 600}
+        width={featured ? 900 : 600}
         class:list={[
-          "transition-transform duration-300 group-hover:scale-[1.02]",
-          featured ? "h-full w-full object-contain p-6" : "h-full w-full object-cover object-top",
+          "h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]",
+          featured ? "object-contain p-6 md:absolute md:inset-0" : "object-cover object-top",
         ]}
       />
     ) : (
@@ -44,26 +45,49 @@ const href = `/projects/${project.id}/`;
     )}
   </div>
 
-  <div class="flex flex-1 flex-col p-6">
-    <p class="text-muted font-mono text-xs">{context}</p>
-    <h3 class="mt-2 text-xl font-bold tracking-tight">
+  <div class:list={["flex flex-1 flex-col", featured ? "p-7 sm:p-10" : "p-6"]}>
+    <p class="text-clay font-mono text-xs font-semibold tracking-widest uppercase">{context}</p>
+    <h3
+      class:list={[
+        "font-display mt-3 font-extrabold tracking-[-0.02em]",
+        featured ? "text-3xl sm:text-4xl" : "text-2xl",
+      ]}
+    >
       <a href={href} class="after:absolute after:inset-0 focus-visible:outline-none">
         {title}
       </a>
     </h3>
-    <p class="text-accent mt-1 text-sm font-medium">{tagline}</p>
+    <p class="text-accent mt-1.5 font-medium">{tagline}</p>
     <p class="text-muted mt-3 leading-relaxed">{summary}</p>
 
-    <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
-      {stack.map((tech) => (
-        <li class="border-border rounded border px-2 py-0.5 font-mono text-xs">{tech}</li>
-      ))}
-    </ul>
+    {featured && stats.length > 0 && (
+      <dl class="mt-6 grid grid-cols-2 gap-3">
+        {stats.map((stat) => (
+          <div class="bg-accent-soft rounded-2xl px-4 py-3">
+            <dt class="sr-only">{stat.label}</dt>
+            <dd>
+              <span class="font-display text-accent block text-3xl font-extrabold">{stat.value}</span>
+              <span class="text-muted text-sm" aria-hidden="true">
+                {stat.label}
+              </span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    )}
 
-    <div class="mt-auto flex items-center gap-4 pt-6 text-sm font-semibold">
+    {!featured && (
+      <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
+        {stack.slice(0, 5).map((tech) => (
+          <li class="border-border rounded-full border px-2.5 py-0.5 font-mono text-xs">{tech}</li>
+        ))}
+      </ul>
+    )}
+
+    <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-7 text-sm font-semibold">
       <span class="text-accent inline-flex items-center gap-1.5">
         Read case study
-        <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-0.5" />
+        <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-1" />
       </span>
       {repo && (
         <a
